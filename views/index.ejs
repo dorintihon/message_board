@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Message Board</title>
+        <link rel="stylesheet" href="/styles.css">
+    </head>
+    <body>
+        <h1>Welcome to the Message Board!</h1>
+        <ul>
+            <% messages.forEach(message => { %>
+                <li>
+                    <strong><%= message.user %>:</strong> <%= message.text %> <em>(<%= message.added.toLocaleString() %>)</em>
+                    <form action="/delete/<%= message.id %>" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+        <a href="/new">Create a new message</a>
+    </body>
+</html>
