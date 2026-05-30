@@ -8,7 +8,7 @@
         <ul>
             <% messages.forEach(message => { %>
                 <li>
-                    <strong><%= message.user %>:</strong> <%= message.text %> <em>(<%= message.added.toLocaleString() %>)</em>
+                    <strong><%= message.username %>:</strong> <%= message.message %> <em>(<%= message.created_at.toLocaleString() %>)</em>
                     <form action="/delete/<%= message.id %>" method="POST">
                         <button type="submit">Delete</button>
                     </form>

@@ -1,42 +1,24 @@
 const {Router} = require('express');
 const indexRouter = Router();
+const db = require('../db/queries');
 let messageId = 0;
 
-let messages = [
-  {
-    id: messageId++,
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date()
-  },
-  {
-    id: messageId++,
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date()
-  }
-];
-
-indexRouter.get('/', (req, res) => {
+indexRouter.get('/', async (req, res) => {
+  const messages = await db.getAllMessages();
   res.render('index', { title: 'Message Board', messages });
 });
 
-indexRouter.post('/new', (req, res) => {
+indexRouter.post('/new', async (req, res) => {
   const { text, user } = req.body;
   if (text && user) {
-    messages.push({
-      id: messageId++,
-      text,
-      user,
-      added: new Date()
-    });
+    await db.insertMessage(user, text);
   }
   res.redirect('/');
 });
 
-indexRouter.post('/delete/:id', (req, res) => {
+indexRouter.post('/delete/:id', async (req, res) => {
   const id = Number(req.params.id);
-  messages = messages.filter(message => message.id !== id);
+  await db.deleteMessage(id);
   res.redirect('/');
 //   console.log(messages);
 });
